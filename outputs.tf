@@ -29,6 +29,6 @@ output "openvpn_access_security_group_id" {
 }
 
 output "ecs_task_role_arn" {
-  description = "IAM role ARN used by the ECS task"
-  value       = aws_iam_role.ecs_task.arn
+  description = "IAM role ARN used by the ECS task (effective task role ARN)"
+  value       = local.effective_task_role_arn
 }

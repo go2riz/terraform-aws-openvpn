@@ -94,3 +94,28 @@ variable "tags" {
   type        = map(string)
   default     = {}
 }
+
+# == IAM role override (optional)
+
+variable "create_iam_role" {
+  description = "Whether this module should create and manage the ECS task IAM role and its policies. If false, you must provide task_role_arn and execution_role_arn."
+  type        = bool
+  default     = true
+
+  validation {
+    condition     = var.create_iam_role || (var.task_role_arn != null && var.execution_role_arn != null)
+    error_message = "If create_iam_role is false, you must set both task_role_arn and execution_role_arn."
+  }
+}
+
+variable "task_role_arn" {
+  description = "Optional IAM role ARN to use as task_role_arn for the ECS task definition. If not set, the module-created role is used (when create_iam_role=true)."
+  type        = string
+  default     = null
+}
+
+variable "execution_role_arn" {
+  description = "Optional IAM role ARN to use as execution_role_arn for the ECS task definition. If not set, the module-created role is used (when create_iam_role=true)."
+  type        = string
+  default     = null
+}

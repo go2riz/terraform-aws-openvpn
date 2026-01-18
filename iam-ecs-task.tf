@@ -1,17 +1,20 @@
 resource "aws_iam_role" "ecs_task" {
+  count              = var.create_iam_role ? 1 : 0
   name               = "ecs-task-openvpn-${var.name}"
   assume_role_policy = data.aws_iam_policy_document.ecs_task_assume_role.json
   tags               = var.tags
 }
 
 resource "aws_iam_role_policy_attachment" "ecs_task_execution" {
-  role       = aws_iam_role.ecs_task.name
+  count      = var.create_iam_role ? 1 : 0
+  role       = aws_iam_role.ecs_task[0].name
   policy_arn = "arn:aws:iam::aws:policy/service-role/AmazonECSTaskExecutionRolePolicy"
 }
 
 resource "aws_iam_role_policy" "ssm_policy" {
+  count = var.create_iam_role ? 1 : 0
   name = "ecs-ssm-policy-openvpn-${var.name}"
-  role = aws_iam_role.ecs_task.name
+  role = aws_iam_role.ecs_task[0].name
 
   policy = jsonencode({
     Version = "2012-10-17"
@@ -26,8 +29,9 @@ resource "aws_iam_role_policy" "ssm_policy" {
 }
 
 resource "aws_iam_role_policy" "s3_policy" {
+  count = var.create_iam_role ? 1 : 0
   name = "ecs-s3-policy-openvpn-${var.name}"
-  role = aws_iam_role.ecs_task.name
+  role = aws_iam_role.ecs_task[0].name
 
   policy = jsonencode({
     Version = "2012-10-17"

@@ -12,6 +12,10 @@ data "aws_iam_policy_document" "ecs_task_assume_role" {
 }
 
 locals {
+  # Role ARNs used by the task definition
+  effective_task_role_arn = var.task_role_arn != null ? var.task_role_arn : (var.create_iam_role ? aws_iam_role.ecs_task[0].arn : null)
+  effective_execution_role_arn = var.execution_role_arn != null ? var.execution_role_arn : (var.create_iam_role ? aws_iam_role.ecs_task[0].arn : null)
+
   container_definitions = [
     {
       name              = var.name

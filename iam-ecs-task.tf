@@ -13,7 +13,7 @@ resource "aws_iam_role_policy_attachment" "ecs_task_execution" {
 
 resource "aws_iam_role_policy" "ssm_policy" {
   count = var.create_iam_role ? 1 : 0
-  name = "ecs-ssm-policy-openvpn-${var.name}"
+  name = "ecs-ssm-policy"
   role = aws_iam_role.ecs_task[0].name
 
   policy = jsonencode({
@@ -30,7 +30,7 @@ resource "aws_iam_role_policy" "ssm_policy" {
 
 resource "aws_iam_role_policy" "s3_policy" {
   count = var.create_iam_role ? 1 : 0
-  name = "ecs-s3-policy-openvpn-${var.name}"
+  name = "ecs-s3-policy"
   role = aws_iam_role.ecs_task[0].name
 
   policy = jsonencode({

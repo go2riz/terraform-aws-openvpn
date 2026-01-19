@@ -1,6 +1,6 @@
 resource "aws_security_group" "openvpn" {
   count       = length(var.requester_cidrs) > 0 ? 1 : 0
-  name        = "openvpn-${var.name}-access"
+  name        = "openvpn-access"
   description = "Allow VPN client CIDRs to access resources"
   vpc_id      = var.vpc_id
 

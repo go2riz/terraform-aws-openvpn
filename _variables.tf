@@ -119,3 +119,9 @@ variable "execution_role_arn" {
   type        = string
   default     = null
 }
+
+variable "enable_ecs_long_arn_formats" {
+  description = "Enable ECS long ARN formats at the account default level (service/task/containerInstance). Note: enabling affects newly created resources; existing ECS services/tasks keep their ARN format until recreated."
+  type        = bool
+  default     = false
+}
